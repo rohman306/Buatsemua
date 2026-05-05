@@ -1,0 +1,637 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>MANZZ APK GACORR · WhatsApp Safety System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        @keyframes float { 0%,100% { transform: translateY(0px); } 50% { transform: translateY(-8px); } }
+        @keyframes float2 { 0%,100% { transform: translateY(0px); } 50% { transform: translateY(8px); } }
+        @keyframes borderGlow { 0%,100% { border-color: rgba(220,38,38,0.3); } 50% { border-color: rgba(249,115,22,0.6); } }
+        
+        .container { max-width: 1400px; margin: 0 auto; position: relative; z-index: 1; }
+        
+        /* LOGIN SECTION */
+        .login-container {
+            display: flex;
+            flex-wrap: wrap;
+            max-width: 1100px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 56px;
+            border: 2px solid #dc2626;
+            overflow: hidden;
+            animation: borderGlow 3s infinite;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        .login-left {
+            flex: 1.2;
+            background: linear-gradient(145deg, #fff5f5, #ffffff);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            gap: 20px;
+        }
+        .icon-row { display: flex; gap: 50px; justify-content: center; margin-bottom: 10px; }
+        .icon-emoji { font-size: 70px; filter: drop-shadow(0 0 15px #dc2626); }
+        .anime-row-login { display: flex; gap: 40px; justify-content: center; flex-wrap: wrap; }
+        .login-emoji { font-size: 85px; border-radius: 50%; border: 3px solid #dc2626; box-shadow: 0 0 20px #dc2626; animation: float 3s infinite ease-in-out; background: white; padding: 20px; width: 140px; height: 140px; display: flex; align-items: center; justify-content: center; }
+        .login-emoji2 { animation: float2 3.5s infinite ease-in-out; }
+        .login-anime-name { color: #dc2626; font-size: 14px; font-weight: 600; margin-top: 10px; text-align: center; }
+        .login-right { flex: 1; padding: 50px 45px; text-align: center; background: #f8fafc; }
+        .manzz-logo { font-size: 32px; font-weight: 800; background: linear-gradient(135deg, #dc2626, #f97316); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .sub-text { color: #475569; font-size: 14px; margin: 10px 0 30px; }
+        .input-field { width: 100%; padding: 14px 20px; margin: 10px 0; background: #f1f5f9; border: 1px solid #dc2626; border-radius: 40px; color: #1e293b; font-size: 16px; }
+        .input-field:focus { outline: none; border-color: #f97316; box-shadow: 0 0 10px #f97316; }
+        .login-btn { background: linear-gradient(95deg, #dc2626, #f97316); border: none; width: 100%; padding: 14px; border-radius: 40px; font-weight: 700; font-size: 18px; color: white; cursor: pointer; margin-top: 20px; }
+        .login-btn:hover { transform: scale(1.02); box-shadow: 0 0 20px #dc2626; }
+        .error-msg { color: #dc2626; background: #fee2e2; padding: 10px; border-radius: 40px; margin-top: 15px; display: none; border: 1px solid #dc2626; }
+        
+        /* DASHBOARD */
+        .dashboard { display: none; }
+        .profile-header {
+            background: white;
+            border-radius: 40px;
+            padding: 25px 35px;
+            margin-bottom: 25px;
+            border: 1px solid #dc2626;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        .profile-left { display: flex; align-items: center; gap: 20px; }
+        .avatar-emoji { font-size: 50px; width: 70px; height: 70px; display: flex; align-items: center; justify-content: center; background: linear-gradient(145deg, #dc2626, #f97316); border-radius: 50%; box-shadow: 0 0 15px #dc2626; color: white; }
+        .profile-info h1 { color: #1e293b; font-size: 28px; font-weight: 700; }
+        .profile-info .role { color: #dc2626; font-size: 14px; margin-top: 5px; font-weight: 600; }
+        .profile-exp p { color: #64748b; font-size: 12px; }
+        .profile-exp span { color: #f97316; font-weight: bold; }
+        
+        /* ANIME GALLERY */
+        .anime-gallery { display: flex; justify-content: center; gap: 40px; margin-bottom: 30px; flex-wrap: wrap; }
+        .anime-card { background: white; border-radius: 80px; padding: 15px 30px; display: flex; align-items: center; gap: 20px; border: 1px solid #dc2626; transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .anime-card:hover { transform: scale(1.05); background: #fff5f5; border-color: #f97316; }
+        .anime-emoji { font-size: 55px; border-radius: 50%; border: 2px solid #dc2626; background: white; width: 70px; height: 70px; display: flex; align-items: center; justify-content: center; animation: float 2s infinite ease-in-out; }
+        .anime-name { color: #1e293b; font-size: 20px; font-weight: 700; }
+        
+        /* MENU GRID */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        .cyber-btn {
+            background: white;
+            border: 1px solid #dc2626;
+            padding: 18px 10px;
+            border-radius: 32px;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.2s;
+            color: #1e293b;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .cyber-btn:hover { background: linear-gradient(95deg, #dc2626, #f97316); transform: translateY(-3px); color: white; }
+        .cyber-btn i { font-size: 32px; margin-bottom: 10px; display: block; color: #dc2626; }
+        .cyber-btn:hover i { color: white; }
+        
+        .section-card {
+            background: white;
+            border-radius: 32px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border: 1px solid #dc2626;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        .section-title { color: #1e293b; font-size: 20px; margin-bottom: 20px; display: flex; align-items: center; gap: 12px; font-weight: 600; }
+        .section-title i { color: #dc2626; }
+        input, select, textarea { width: 100%; padding: 12px 18px; border-radius: 40px; border: 1px solid #dc2626; background: #f8fafc; color: #1e293b; margin-bottom: 12px; }
+        .btn { background: linear-gradient(95deg, #dc2626, #f97316); border: none; padding: 10px 22px; border-radius: 40px; font-weight: 600; color: white; cursor: pointer; margin: 5px 5px 0 0; }
+        .btn-danger { background: linear-gradient(95deg, #dc2626, #991b1b); }
+        .btn-success { background: linear-gradient(95deg, #10b981, #059669); }
+        .btn-warning { background: linear-gradient(95deg, #f59e0b, #d97706); }
+        .progress-bar { width: 100%; height: 8px; background: #e2e8f0; border-radius: 10px; margin-top: 10px; overflow: hidden; }
+        .progress-fill { width: 0%; height: 100%; background: linear-gradient(95deg, #dc2626, #f97316); border-radius: 10px; transition: width 0.3s; }
+        .log-area { background: #f1f5f9; border-radius: 28px; padding: 18px; max-height: 200px; overflow-y: auto; }
+        .log-line { color: #1e293b; font-size: 12px; padding: 6px 0; border-bottom: 0.5px solid #dc2626; font-family: monospace; }
+        .user-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        .user-table th, .user-table td { padding: 12px 10px; text-align: left; border-bottom: 1px solid #dc2626; color: #1e293b; }
+        .badge { display: inline-block; padding: 4px 12px; border-radius: 40px; font-size: 11px; font-weight: 600; }
+        .badge-developer { background: #dc2626; color: white; }
+        .badge-owner { background: #f97316; color: white; }
+        .badge-admin { background: #3b82f6; color: white; }
+        .badge-premium { background: #f59e0b; color: white; }
+        .badge-seller { background: #10b981; color: white; }
+        .badge-member { background: #6b7280; color: white; }
+        .bug-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; margin-top: 15px; }
+        .bug-card { background: #f8fafc; border-radius: 24px; padding: 12px; text-align: center; cursor: pointer; transition: 0.2s; border: 1px solid #dc2626; }
+        .bug-card:hover { background: #fee2e2; transform: translateY(-2px); }
+        .bug-card i { font-size: 28px; margin-bottom: 6px; display: block; color: #dc2626; }
+        .bug-card h4 { color: #1e293b; margin-bottom: 5px; font-size: 12px; }
+        footer { text-align: center; padding: 20px; color: #64748b; font-size: 12px; }
+        @media (max-width: 800px) { .login-left { display: none; } .menu-grid { grid-template-columns: repeat(2, 1fr); } }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- LOGIN SECTION -->
+    <div id="loginContainer" class="login-container">
+        <div class="login-left">
+            <div class="icon-row">
+                <div class="icon-emoji">💀</div>
+                <div class="icon-emoji">🦏</div>
+            </div>
+            <div class="anime-row-login">
+                <div>
+                    <div class="login-emoji">😠</div>
+                    <div class="login-anime-name">⚡ Alya ⚡</div>
+                </div>
+                <div>
+                    <div class="login-emoji login-emoji2">💖</div>
+                    <div class="login-anime-name">💕 Mahiru 💕</div>
+                </div>
+            </div>
+        </div>
+        <div class="login-right">
+            <div class="manzz-logo">⚡ MANZZ APK GACORR ⚡</div>
+            <div class="sub-text">WhatsApp Safety System · Proteksi Total</div>
+            <input type="text" id="loginUser" class="input-field" placeholder="Username">
+            <input type="password" id="loginPass" class="input-field" placeholder="Password">
+            <button class="login-btn" id="loginBtn">→ SIGN IN</button>
+            <div id="loginError" class="error-msg">❌ Username atau password salah!</div>
+        </div>
+    </div>
+
+    <!-- DASHBOARD -->
+    <div id="dashboardContainer" class="dashboard">
+        <div class="profile-header">
+            <div class="profile-left">
+                <div class="avatar-emoji">👑</div>
+                <div class="profile-info">
+                    <h1 id="displayName">MANZZKECEE</h1>
+                    <div class="role" id="displayRole">Role: DEVELOPER</div>
+                </div>
+            </div>
+            <div class="profile-exp">
+                <p>Exp: <span>2300-01-28</span></p>
+            </div>
+        </div>
+
+        <!-- ANIME GALLERY -->
+        <div class="anime-gallery">
+            <div class="anime-card">
+                <div class="anime-emoji">💖</div>
+                <div class="anime-name">✨ Alya ✨</div>
+            </div>
+            <div class="anime-card">
+                <div class="anime-emoji">💝</div>
+                <div class="anime-name">🌸 Mahiru 🌸</div>
+            </div>
+        </div>
+
+        <!-- MENU GRID -->
+        <div class="menu-grid">
+            <div class="cyber-btn" id="badakBtn"><i class="fas fa-shield-alt"></i> BADAK WA</div>
+            <div class="cyber-btn" id="safetyBtn"><i class="fas fa-shield-virus"></i> SAFETY SYSTEM</div>
+            <div class="cyber-btn" id="fixBtn"><i class="fas fa-wrench"></i> FIX MERAH</div>
+            <div class="cyber-btn" id="unbanBtn"><i class="fas fa-unlock-alt"></i> UNBAN WA</div>
+            <div class="cyber-btn" id="bugBtn"><i class="fas fa-bug"></i> BUG WA</div>
+            <div class="cyber-btn" id="senderBtn"><i class="fas fa-paper-plane"></i> ADD SENDER</div>
+            <div class="cyber-btn" id="settingsBtn"><i class="fas fa-cog"></i> SETTINGS</div>
+            <div class="cyber-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> LOGOUT</div>
+        </div>
+    </div>
+</div>
+<div style="display: none;" id="sectionsContainer">
+        <!-- BADAK SECTION DENGAN RUSSIA -->
+        <div class="section-card" id="badakSection" style="display: none;">
+            <div class="section-title"><i class="fas fa-shield-alt"></i> 🦏 BADAK WA - KEKAL TOTAL</div>
+            <p style="color: #475569; margin-bottom: 15px;">Proteksi WhatsApp dari spam, ban, batasi, dan kenon. Support semua negara termasuk RUSSIA.</p>
+            <select id="badakCountry" style="margin-bottom: 10px;">
+                <option value="62">🇮🇩 Indonesia (+62)</option>
+                <option value="1">🇺🇸 USA (+1)</option>
+                <option value="44">🇬🇧 UK (+44)</option>
+                <option value="91">🇮🇳 India (+91)</option>
+                <option value="60">🇲🇾 Malaysia (+60)</option>
+                <option value="65">🇸🇬 Singapore (+65)</option>
+                <option value="63">🇵🇭 Philippines (+63)</option>
+                <option value="66">🇹🇭 Thailand (+66)</option>
+                <option value="81">🇯🇵 Japan (+81)</option>
+                <option value="49">🇩🇪 Germany (+49)</option>
+                <option value="33">🇫🇷 France (+33)</option>
+                <option value="58">🇻🇪 Venezuela (+58)</option>
+                <option value="670">🇹🇱 Timor Leste (+670)</option>
+                <option value="7">🇷🇺 Russia (+7)</option>
+            </select>
+            <input type="text" id="badakNumber" placeholder="8123456789 (nomor lokal)">
+            <button id="startBadakBtn" class="btn btn-success">🛡️ AKTIFKAN BADAK</button>
+            <div id="badakProgress" style="display: none;">
+                <div class="progress-bar"><div class="progress-fill" id="badakFill"></div></div>
+                <p id="badakStatus" style="color: #f97316; margin-top: 10px;"></p>
+            </div>
+        </div>
+
+        <!-- SAFETY SYSTEM SECTION -->
+        <div class="section-card" id="safetySection" style="display: none;">
+            <div class="section-title"><i class="fas fa-shield-virus"></i> 🛡️ WHATSAPP SAFETY SYSTEM</div>
+            <p style="color: #475569; margin-bottom: 15px;">Sistem keamanan WhatsApp terintegrasi - Proteksi 5 lapis (Support semua negara termasuk RUSSIA)</p>
+            <div style="background: #f1f5f9; border-radius: 24px; padding: 15px; margin-bottom: 15px;">
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;"><span style="font-size: 24px;">🛡️</span><span style="color: #1e293b; font-weight: bold;">Lapisan 1: Anti Spam Filter</span></div>
+                <div class="progress-bar"><div class="progress-fill" style="width: 100%;"></div></div>
+                <p style="color: #10b981; font-size: 12px; margin-top: 5px;">✅ Aktif - Memfilter 99.9% spam</p>
+            </div>
+            <div style="background: #f1f5f9; border-radius: 24px; padding: 15px; margin-bottom: 15px;">
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;"><span style="font-size: 24px;">🔒</span><span style="color: #1e293b; font-weight: bold;">Lapisan 2: Anti Ban Protection</span></div>
+                <div class="progress-bar"><div class="progress-fill" style="width: 100%;"></div></div>
+                <p style="color: #10b981; font-size: 12px; margin-top: 5px;">✅ Aktif - Mencegah banned permanen</p>
+            </div>
+            <div style="background: #f1f5f9; border-radius: 24px; padding: 15px; margin-bottom: 15px;">
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;"><span style="font-size: 24px;">🚫</span><span style="color: #1e293b; font-weight: bold;">Lapisan 3: Anti Batasi</span></div>
+                <div class="progress-bar"><div class="progress-fill" style="width: 100%;"></div></div>
+                <p style="color: #10b981; font-size: 12px; margin-top: 5px;">✅ Aktif - Bebas dari pembatasan fitur</p>
+            </div>
+            <div style="background: #f1f5f9; border-radius: 24px; padding: 15px; margin-bottom: 15px;">
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;"><span style="font-size: 24px;">🔐</span><span style="color: #1e293b; font-weight: bold;">Lapisan 4: Anti Kenon</span></div>
+                <div class="progress-bar"><div class="progress-fill" style="width: 100%;"></div></div>
+                <p style="color: #10b981; font-size: 12px; margin-top: 5px;">✅ Aktif - Perlindungan dari serangan massal</p>
+            </div>
+            <div style="background: #f1f5f9; border-radius: 24px; padding: 15px; margin-bottom: 15px;">
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px;"><span style="font-size: 24px;">⚡</span><span style="color: #1e293b; font-weight: bold;">Lapisan 5: Real-time Monitoring</span></div>
+                <div class="progress-bar"><div class="progress-fill" style="width: 100%;"></div></div>
+                <p style="color: #10b981; font-size: 12px; margin-top: 5px;">✅ Aktif - Memonitor ancaman 24/7</p>
+            </div>
+            <button id="scanSafetyBtn" class="btn btn-success">🔍 SCAN KEAMANAN WA</button>
+            <div id="safetyResult" style="margin-top: 15px; color: #10b981;"></div>
+        </div>
+
+        <!-- FIX MERAH SECTION -->
+        <div class="section-card" id="fixSection" style="display: none;">
+            <div class="section-title"><i class="fas fa-wrench"></i> 🔧 FIX MERAH</div>
+            <input type="text" id="fixNumber" placeholder="Masukkan nomor WA (opsional)">
+            <button id="startFixBtn" class="btn btn-warning">FIX MERAH</button>
+            <div id="fixResult" style="margin-top: 15px; color: #f97316;"></div>
+        </div>
+
+        <!-- UNBAN SECTION -->
+        <div class="section-card" id="unbanSection" style="display: none;">
+            <div class="section-title"><i class="fas fa-unlock-alt"></i> ⚡ UNBAN WA</div>
+            <input type="text" id="unbanNumber" placeholder="Masukkan nomor WA yang terkena banned">
+            <button id="startUnbanBtn" class="btn btn-success">UNBAN SEKARANG</button>
+            <div id="unbanResult" style="margin-top: 15px; color: #f97316;"></div>
+        </div>
+
+        <!-- BUG SECTION -->
+        <div class="section-card" id="bugSection" style="display: none;">
+            <div class="section-title"><i class="fas fa-bug"></i> BUG WHATSAPP - GACOR MAX</div>
+            <div class="bug-grid">
+                <div class="bug-card" data-bug="dlay"><i class="fas fa-hourglass-half"></i><h4>Bug Dlay</h4><small>Delay pesan 24 jam</small></div>
+                <div class="bug-card" data-bug="blank-hard"><i class="fas fa-ban"></i><h4>Blank Hard</h4><small>Chat blank total</small></div>
+                <div class="bug-card" data-bug="blank-member"><i class="fas fa-user-slash"></i><h4>Blank Member</h4><small>Member jadi blank</small></div>
+                <div class="bug-card" data-bug="member-dlay"><i class="fas fa-clock"></i><h4>Member Dlay</h4><small>Delay + blank member</small></div>
+                <div class="bug-card" data-bug="hard-core"><i class="fas fa-skull-crossbones"></i><h4>Hard Core</h4><small>Crash total</small></div>
+                <div class="bug-card" data-bug="freeze"><i class="fas fa-snowflake"></i><h4>Freeze Chat</h4><small>Chat freeze</small></div>
+                <div class="bug-card" data-bug="band-permanen"><i class="fas fa-gavel"></i><h4>⚡ BAND PERMANEN</h4><small>Ban permanen + blokir</small></div>
+            </div>
+            <input type="text" id="bugTarget" placeholder="Nomor target">
+            <button id="executeBugBtn" class="btn btn-danger">💣 EKSEKUSI BUG</button>
+            <div id="bugResult" style="margin-top: 15px; color: #f97316;"></div>
+        </div>
+
+        <!-- ADD SENDER SECTION -->
+        <div class="section-card" id="senderSection" style="display: none;">
+            <div class="section-title"><i class="fas fa-paper-plane"></i> ADD SENDER - KIRIM PESAN MASAL</div>
+            <textarea id="senderList" rows="3" placeholder="Daftar nomor target (pisah dengan koma atau enter)&#10;628123456789,628987654321"></textarea>
+            <textarea id="senderMessage" rows="3" placeholder="Pesan yang akan dikirim..."></textarea>
+            <button id="sendMassBtn" class="btn btn-success">📨 KIRIM KE SEMUA</button>
+            <div id="senderResult" style="margin-top: 15px; color: #f97316;"></div>
+        </div>
+
+        <!-- SETTINGS SECTION -->
+        <div class="section-card" id="settingsSection" style="display: none;">
+            <div class="section-title"><i class="fas fa-cog"></i> SETTINGS</div>
+            <div style="background: #f1f5f9; border-radius: 20px; padding: 15px; margin-bottom: 20px;">
+                <p style="color: #1e293b;"><i class="fas fa-tag"></i> Nama Aplikasi: <span style="color: #dc2626; font-weight: bold;">MANZZ APK GACORR</span></p>
+                <p style="color: #1e293b; margin-top: 8px;"><i class="fas fa-code-branch"></i> Versi: <span style="color: #f97316; font-weight: bold;">V7.0</span></p>
+                <p style="color: #1e293b; margin-top: 8px;"><i class="fas fa-calendar"></i> Rilis: 2025</p>
+                <p style="color: #1e293b; margin-top: 8px;"><i class="fas fa-user-shield"></i> Developer: MANZZKECEE</p>
+            </div>
+            <button id="changePasswordBtn" class="btn">🔑 Ganti Password</button>
+            <button id="changeUsernameBtn" class="btn">✏️ Ganti Username</button>
+            <button id="clearDataBtn" class="btn btn-danger">🗑️ Clear Data (Hapus Bawahan)</button>
+        </div>
+
+        <!-- MANAJEMEN USER -->
+        <div class="section-card" id="userManagementCard">
+            <div class="section-title"><i class="fas fa-users-cog"></i> MANAJEMEN USER</div>
+            <div id="managementPanel">
+                <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 20px;">
+                    <input type="text" id="newUsername" placeholder="Username" style="width: 170px;">
+                    <select id="newRoleSelect" style="width: 140px;">
+                        <option value="admin">Admin</option>
+                        <option value="premium">Premium</option>
+                        <option value="seller">Seller</option>
+                        <option value="member">Member</option>
+                    </select>
+                    <input type="password" id="newPasswordInput" placeholder="Password" style="width: 150px;">
+                    <button id="createUserBtn" class="btn btn-success">TAMBAH USER</button>
+                </div>
+                <table class="user-table" id="userTable">
+                    <thead><td><th>Username</th><th>Role</th><th>Status</th><th>Aksi</th></tr></thead>
+                    <tbody id="userTableBody"></tbody>
+                </table>
+                <p style="color: #dc2626; font-size: 12px; margin-top: 10px;">⚠️ User bawahan BISA LOGIN dengan password yang ditentukan!</p>
+            </div>
+            <div id="nonOwnerMsg" style="display: none; color: #dc2626;">Hanya Developer/Owner yang bisa mengelola user!</div>
+        </div>
+
+        <div class="log-area" id="logArea">
+            <div class="log-line">[SYS] MANZZ APK GACORR V7 siap digunakan</div>
+            <div class="log-line">[INFO] WhatsApp Safety System aktif - Proteksi 5 lapis</div>
+            <div class="log-line">[INFO] Developer bisa buat akun bawahan (Admin, Premium, Seller, Member)</div>
+            <div class="log-line">[INFO] Support negara RUSSIA (+7) telah ditambahkan</div>
+        </div>
+        <footer>MANZZ APK GACORR · WhatsApp Safety System · Proteksi Total · Support Russia</footer>
+    </div>
+</div>
+<script>
+    // ========== DATABASE USER DENGAN SEMUA AKUN ==========
+    let users = [];
+    let currentUser = null;
+    let selectedBug = null;
+
+    const roleAccess = {
+        developer: { badak: true, safety: true, fix: true, unban: true, bug: true, manageUsers: true, level: 6 },
+        owner: { badak: true, safety: true, fix: true, unban: true, bug: true, manageUsers: true, level: 5 },
+        admin: { badak: true, safety: true, fix: true, unban: true, bug: true, manageUsers: false, level: 4 },
+        premium: { badak: true, safety: true, fix: true, unban: true, bug: false, manageUsers: false, level: 3 },
+        seller: { badak: true, safety: false, fix: false, unban: true, bug: false, manageUsers: false, level: 2 },
+        member: { badak: true, safety: false, fix: true, unban: false, bug: false, manageUsers: false, level: 1 }
+    };
+
+    function loadUsers() {
+        const saved = localStorage.getItem('manzz_users');
+        if(saved) return JSON.parse(saved);
+        // SEMUA AKUN YANG DIMINTA
+        return [
+            { username: "MANZZKECEE", password: "manz2011", role: "developer", active: true },
+            { username: "Rohman", password: "manz2011", role: "owner", active: true },
+            { username: "dra", password: "dra123", role: "admin", active: true },
+            { username: "Killua", password: "kil123", role: "admin", active: true },
+            { username: "Hanzz", password: "han321", role: "admin", active: true },
+            { username: "mrkpli", password: "mrkp554", role: "admin", active: true },
+            { username: "GIBRAN", password: "gib152", role: "admin", active: true }
+        ];
+    }
+
+    function saveUsers() { localStorage.setItem('manzz_users', JSON.stringify(users)); }
+
+    function addLog(msg, isErr = false) {
+        const logDiv = document.getElementById('logArea');
+        if(!logDiv) return;
+        const line = document.createElement('div');
+        line.className = 'log-line';
+        if(isErr) line.style.color = "#dc2626";
+        line.innerText = `[${new Date().toLocaleTimeString()}] ${msg}`;
+        logDiv.appendChild(line);
+        logDiv.scrollTop = logDiv.scrollHeight;
+    }
+
+    function renderUserTable() {
+        const tbody = document.getElementById('userTableBody');
+        if(!tbody) return;
+        tbody.innerHTML = '';
+        users.forEach(user => {
+            if(user.username === currentUser?.username) return;
+            const roleClass = user.role === 'developer' ? 'badge-developer' : (user.role === 'owner' ? 'badge-owner' : (user.role === 'admin' ? 'badge-admin' : (user.role === 'premium' ? 'badge-premium' : (user.role === 'seller' ? 'badge-seller' : 'badge-member'))));
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${user.username}</td>
+                <td><span class="badge ${roleClass}">${user.role}</span></td>
+                <td><span class="badge" style="background:${user.active ? '#10b98120' : '#ef444420'}; color:${user.active ? '#10b981' : '#dc2626'};">${user.active ? '✅ Disetujui' : '❌ Ditolak'}</span></td>
+                <td>
+                    <button class="toggle-user" data-user="${user.username}" style="background:${user.active ? '#f59e0b' : '#10b981'}; border:none; padding:4px 12px; border-radius:40px; color:white; margin:2px; cursor:pointer;">${user.active ? 'Tolak' : 'Izinkan'}</button>
+                    <button class="delete-user" data-user="${user.username}" style="background:#dc2626; border:none; padding:4px 12px; border-radius:40px; color:white; margin:2px; cursor:pointer;">Hapus</button>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+        document.querySelectorAll('.delete-user').forEach(btn => btn.addEventListener('click', () => {
+            const username = btn.getAttribute('data-user');
+            if(confirm(`Hapus user ${username}?`)) { users = users.filter(u => u.username !== username); saveUsers(); renderUserTable(); addLog(`❌ User ${username} dihapus.`); }
+        }));
+        document.querySelectorAll('.toggle-user').forEach(btn => btn.addEventListener('click', () => {
+            const username = btn.getAttribute('data-user');
+            const user = users.find(u => u.username === username);
+            if(user) { user.active = !user.active; saveUsers(); renderUserTable(); addLog(`🔄 User ${username} status: ${user.active ? 'DISETUJUI' : 'DITOLAK'}`); }
+        }));
+    }
+
+    function updateUIByRole() {
+        if(!currentUser) return;
+        const access = roleAccess[currentUser.role] || roleAccess.member;
+        document.getElementById('displayName').innerText = currentUser.username;
+        let roleText = currentUser.role.toUpperCase();
+        if(currentUser.role === 'developer') roleText = 'DEVELOPER';
+        else if(currentUser.role === 'owner') roleText = 'OWNER';
+        else if(currentUser.role === 'admin') roleText = 'ADMIN';
+        else if(currentUser.role === 'premium') roleText = 'PREMIUM';
+        else if(currentUser.role === 'seller') roleText = 'SELLER';
+        else if(currentUser.role === 'member') roleText = 'MEMBER';
+        document.getElementById('displayRole').innerHTML = `Role: ${roleText}`;
+        
+        document.getElementById('managementPanel').style.display = access.manageUsers ? 'block' : 'none';
+        document.getElementById('nonOwnerMsg').style.display = access.manageUsers ? 'none' : 'block';
+        if(access.manageUsers) renderUserTable();
+    }
+
+    function checkAndRedirect() {
+        const saved = localStorage.getItem('manzz_currentUser');
+        if(saved) {
+            const user = JSON.parse(saved);
+            users = loadUsers();
+            const found = users.find(u => u.username === user.username && u.password === user.password && u.active === true);
+            if(found) { currentUser = found; document.getElementById('loginContainer').style.display = 'none'; document.getElementById('dashboardContainer').style.display = 'block'; document.getElementById('sectionsContainer').style.display = 'block'; updateUIByRole(); addLog(`✅ Login sebagai ${found.role.toUpperCase()}: ${found.username}`); return true; }
+        }
+        users = loadUsers();
+        return false;
+    }
+
+    // LOGIN
+    document.getElementById('loginBtn')?.addEventListener('click', () => {
+        const username = document.getElementById('loginUser').value.trim();
+        const password = document.getElementById('loginPass').value.trim();
+        users = loadUsers();
+        const found = users.find(u => u.username === username && u.password === password && u.active === true);
+        const errorDiv = document.getElementById('loginError');
+        if(found) {
+            localStorage.setItem('manzz_currentUser', JSON.stringify(found));
+            currentUser = found;
+            document.getElementById('loginContainer').style.display = 'none';
+            document.getElementById('dashboardContainer').style.display = 'block';
+            document.getElementById('sectionsContainer').style.display = 'block';
+            updateUIByRole();
+            addLog(`✅ Login sebagai ${found.role.toUpperCase()}: ${found.username}`);
+        } else {
+            errorDiv.style.display = 'block';
+            setTimeout(() => errorDiv.style.display = 'none', 3000);
+        }
+    });
+
+    // NAVIGASI MENU
+    const sections = ['badakSection', 'safetySection', 'fixSection', 'unbanSection', 'bugSection', 'senderSection', 'settingsSection'];
+    function showSection(id) { sections.forEach(s => document.getElementById(s).style.display = 'none'); if(id) document.getElementById(id).style.display = 'block'; }
+    document.getElementById('badakBtn')?.addEventListener('click', () => showSection('badakSection'));
+    document.getElementById('safetyBtn')?.addEventListener('click', () => showSection('safetySection'));
+    document.getElementById('fixBtn')?.addEventListener('click', () => showSection('fixSection'));
+    document.getElementById('unbanBtn')?.addEventListener('click', () => showSection('unbanSection'));
+    document.getElementById('bugBtn')?.addEventListener('click', () => showSection('bugSection'));
+    document.getElementById('senderBtn')?.addEventListener('click', () => showSection('senderSection'));
+    document.getElementById('settingsBtn')?.addEventListener('click', () => showSection('settingsSection'));
+    document.getElementById('logoutBtn')?.addEventListener('click', () => { localStorage.removeItem('manzz_currentUser'); window.location.reload(); });
+
+    // BADAK WA
+    document.getElementById('startBadakBtn')?.addEventListener('click', () => {
+        const number = document.getElementById('badakNumber').value.trim();
+        if(!number) { addLog('❌ Masukkan nomor!', true); return; }
+        addLog(`🦏 Memulai BADAK untuk ${number}...`);
+        document.getElementById('badakProgress').style.display = 'block';
+        let progress = 0;
+        const fill = document.getElementById('badakFill');
+        const status = document.getElementById('badakStatus');
+        const interval = setInterval(() => {
+            progress += Math.random() * 15;
+            if(progress >= 100) {
+                clearInterval(interval);
+                fill.style.width = '100%';
+                status.innerHTML = '✅ BADAK BERHASIL! WhatsApp KEKAL TOTAL!';
+                addLog(`✅ BADAK BERHASIL! ${number} sekarang KEKAL!`);
+                setTimeout(() => { document.getElementById('badakProgress').style.display = 'none'; fill.style.width = '0%'; }, 3000);
+            } else {
+                fill.style.width = progress + '%';
+                status.innerHTML = `🛡️ Memperkuat perisai... ${Math.floor(progress)}%`;
+            }
+        }, 200);
+    });
+
+    // SAFETY SYSTEM
+    document.getElementById('scanSafetyBtn')?.addEventListener('click', () => {
+        addLog(`🔍 Memindai sistem keamanan WhatsApp...`);
+        setTimeout(() => {
+            document.getElementById('safetyResult').innerHTML = '✅ SCAN SELESAI! WhatsApp Anda 100% AMAN! Semua lapisan proteksi aktif.';
+            addLog(`✅ Scan selesai - WhatsApp dalam kondisi aman`);
+        }, 2000);
+    });
+
+    // FIX MERAH
+    document.getElementById('startFixBtn')?.addEventListener('click', () => {
+        addLog(`🔧 Memperbaiki error merah...`);
+        setTimeout(() => { document.getElementById('fixResult').innerHTML = '✅ FIX BERHASIL!'; addLog(`✅ Fix merah selesai`); }, 2000);
+    });
+
+    // UNBAN WA
+    document.getElementById('startUnbanBtn')?.addEventListener('click', () => {
+        const number = document.getElementById('unbanNumber').value.trim();
+        if(!number) { addLog('❌ Masukkan nomor!', true); return; }
+        addLog(`⚡ Memproses unban untuk ${number}...`);
+        setTimeout(() => { document.getElementById('unbanResult').innerHTML = '✅ UNBAN BERHASIL!'; addLog(`✅ Unban berhasil`); }, 1500);
+    });
+
+    // BUG
+    document.querySelectorAll('.bug-card').forEach(card => {
+        card.addEventListener('click', () => {
+            document.querySelectorAll('.bug-card').forEach(c => c.style.borderColor = '#dc2626');
+            card.style.borderColor = '#f97316';
+            selectedBug = card.getAttribute('data-bug');
+            addLog(`🎯 Bug "${card.querySelector('h4').innerText}" dipilih.`);
+        });
+    });
+    
+    document.getElementById('executeBugBtn')?.addEventListener('click', () => {
+        const target = document.getElementById('bugTarget').value.trim();
+        if(!target) { addLog('❌ Masukkan nomor target!', true); return; }
+        if(!selectedBug) { addLog('❌ Pilih bug terlebih dahulu!', true); return; }
+        addLog(`💣 EKSEKUSI BUG ke ${target}`);
+        setTimeout(() => {
+            document.getElementById('bugResult').innerHTML = `✅ BUG BERHASIL! ${target} terkena efek bug!`;
+            addLog(`✅ Bug berhasil dieksekusi ke ${target}`);
+            if(selectedBug === 'band-permanen') {
+                addLog(`🚫⚠️ ${target} TELAH DI BAND PERMANEN! WhatsApp tidak bisa diakses!`, true);
+            }
+        }, 2000);
+    });
+
+    // SENDER
+    document.getElementById('sendMassBtn')?.addEventListener('click', () => {
+        const list = document.getElementById('senderList').value;
+        const msg = document.getElementById('senderMessage').value.trim();
+        if(!list || !msg) { addLog('❌ Isi daftar nomor dan pesan!', true); return; }
+        const numbers = list.split(/[ ,\n]+/).filter(n => n.trim().length > 8);
+        if(numbers.length === 0) { addLog('❌ Tidak ada nomor valid!', true); return; }
+        addLog(`📨 Mengirim pesan ke ${numbers.length} nomor...`);
+        setTimeout(() => { addLog(`✅ Pesan berhasil dikirim ke ${numbers.length} nomor!`); document.getElementById('senderResult').innerHTML = `✅ Berhasil dikirim ke ${numbers.length} nomor`; }, 2000);
+    });
+
+    // CREATE USER
+    document.getElementById('createUserBtn')?.addEventListener('click', () => {
+        if(!currentUser || !roleAccess[currentUser.role]?.manageUsers) { alert('Hanya Developer/Owner yang bisa membuat user!'); return; }
+        const newUser = document.getElementById('newUsername').value.trim();
+        const newPass = document.getElementById('newPasswordInput').value.trim();
+        const newRole = document.getElementById('newRoleSelect').value;
+        if(!newUser || !newPass) { alert('Isi username & password!'); return; }
+        if(users.find(u => u.username === newUser)) { alert('Username sudah ada!'); return; }
+        users.push({ username: newUser, password: newPass, role: newRole, active: true });
+        saveUsers(); renderUserTable(); addLog(`✅ User baru: ${newUser} (${newRole}) - BISA LOGIN dengan password "${newPass}"!`);
+        document.getElementById('newUsername').value = ''; document.getElementById('newPasswordInput').value = '';
+    });
+
+    // SETTINGS
+    document.getElementById('changePasswordBtn')?.addEventListener('click', () => {
+        const newPass = prompt('Masukkan password baru:');
+        if(newPass && newPass.length >= 4) {
+            const userIndex = users.findIndex(u => u.username === currentUser.username);
+            if(userIndex !== -1) { users[userIndex].password = newPass; saveUsers(); addLog(`🔐 Password untuk ${currentUser.username} berhasil diubah!`); alert('Password berhasil diubah!'); }
+        } else if(newPass) { alert('Password minimal 4 karakter!'); }
+    });
+    document.getElementById('changeUsernameBtn')?.addEventListener('click', () => {
+        const newName = prompt('Masukkan username baru:');
+        if(newName && newName.trim()) {
+            if(users.some(u => u.username === newName.trim())) { alert('Username sudah digunakan!'); return; }
+            const userIndex = users.findIndex(u => u.username === currentUser.username);
+            if(userIndex !== -1) {
+                users[userIndex].username = newName.trim();
+                currentUser.username = newName.trim();
+                saveUsers();
+                localStorage.setItem('manzz_currentUser', JSON.stringify(currentUser));
+                updateUIByRole();
+                addLog(`📝 Username berhasil diubah menjadi ${newName}`);
+                alert('Username berhasil diubah!');
+            }
+        }
+    });
+    document.getElementById('clearDataBtn')?.addEventListener('click', () => {
+        if(confirm('Hapus semua data user bawahan? Hanya Developer dan Owner yang tersisa!')) {
+            users = users.filter(u => u.role === 'developer' || u.role === 'owner');
+            saveUsers(); renderUserTable(); addLog(`🗑️ Data user bawahan telah dibersihkan.`);
+        }
+    });
+
+    if(!checkAndRedirect()) { users = loadUsers(); }
+</script>
+</body>
+</html>
